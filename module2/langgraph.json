@@ -1,7 +1,8 @@
 {
   "dockerfile_lines": [],
   "graphs": {
-    "state_reducers_graph": "./state_reducers.py:graph"
+    "state_reducers_graph": "./state_reducers.py:graph",
+    "custom_state_reducer_graph": "./custom_state_reducers.py:graph"
   },
   "env": "../.env",
   "python_version": "3.14",
