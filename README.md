@@ -12,6 +12,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 </div>
 
+## Overview
+you will learn LangGraph, LangSmith, langgraph-cli, langgraph-sdk and many 
+more concepts along the way.
+
 
 Agents -> Simply if the llm of the application take the responsibility to choose 
 the next step that is an agent. and you can give more control or less controll over to the llm.
@@ -24,3 +28,9 @@ to make the application more reliable, Langgrapgh has several techniques or pill
 3. Human in the loop
 4. controllability
 5. observability
+
+### Module 01
+
+basic langgraph.
+ReAct Agent
+ReAct Agent with memory

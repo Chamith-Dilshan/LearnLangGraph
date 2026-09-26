@@ -18,6 +18,7 @@ dependencies = [
     "langgraph-prebuilt>=1.1.0",
     "langgraph-sdk>=0.4.5",
     "langsmith>=0.14.0",
+    "pydantic>=2.13.5",
     "pygments>=2.21.0",
     "python-dotenv>=1.2.3",
     "trustcall>=0.0.39",
