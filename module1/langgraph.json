@@ -1,7 +1,8 @@
 {
   "dockerfile_lines": [],
   "graphs": {
-    "simple_graph": "./simple_graph.py:graph"
+    "simple_graph": "./simple_graph.py:graph",
+    "react_agent_with_tools": "./react_agent_with_tools.py:react_graph"
   },
   "env": "../.env",
   "python_version": "3.14",
