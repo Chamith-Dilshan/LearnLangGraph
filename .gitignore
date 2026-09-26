@@ -64,6 +64,7 @@ dmypy.json
 .ruff_cache/
 /docs
 chroma_langchain_db
+.langgraph_api/
 
 # FastAPI specific
 *.log

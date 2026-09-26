@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://cdn.prod.website-files.com/65b8cd72835ceeacd4449a53/6a9936e4f7726409a9ce4092_LangChain_Lockup_Black%201-1.svg" alt="LangChain" width="380" />
+	<img src="https://cdn.prod.website-files.com/65b8cd72835ceeacd4449a53/6a994264d6c253a6c88e609a_LangGraph_OSS%20Lockup_light%201-1.svg" alt="LangChain" width="380" />
 </p>
 
 <div align="center">
@@ -12,37 +12,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 </div>
 
-A production-oriented FastAPI application for a LangGraph-powered RAG assistant. It combines retrieval, orchestration,
-security checks, tracing, and operational metrics in a structure suitable for local development and deployment.
 
-## Overview
+Agents -> Simply if the llm of the application take the responsibility to choose 
+the next step that is an agent. and you can give more control or less controll over to the llm.
 
-This repository is intended as a practical starting point for building a production-ready retrieval-augmented generation
-system with the following capabilities:
+when the level of control is high, the application's reliability get lower. 
+to make the application more reliable, Langgrapgh has several techniques or pillers.
 
-- FastAPI HTTP API
-- LangGraph orchestration
-- LangChain model integration
-- caching and request metrics
-- input and output validation
-- Langfuse observability
-- Test automation and coverage checks
-
-## Why this project exists
-
-The goal is to build a secure and observable RAG service that is useful in real deployment scenarios, not just a
-notebook prototype. In production, RAG systems often fail due to weak chunking, embedding mismatches, noisy retrieval,
-context overflow, and model instability. This repo includes patterns and guardrails to tackle those issues early.
-
-## Features
-
-- `/chat` endpoint with security validation and cache checks
-- `/health` readiness endpoint
-- `/metrics` summary endpoint
-- `/cache/status` cache diagnostics
-- prompt injection guardrails
-- PII detection and masking for input and output
-- structured JSON logging
-- request timing and performance metrics
-- FastAPI validation with Pydantic models
-- pytest-based testing with coverage support
+1. Persistence
+2. Streaming
+3. Human in the loop
+4. controllability
+5. observability
