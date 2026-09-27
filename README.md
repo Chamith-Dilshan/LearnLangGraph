@@ -34,3 +34,15 @@ to make the application more reliable, Langgrapgh has several techniques or pill
 basic langgraph.
 ReAct Agent
 ReAct Agent with memory
+
+### Module 02
+
+Different ways to declare the agent state
+multiple schemas
+state reducers
+custom state reducers
+filtering and trimming
+summarization
+summarization with db
+
+### Module 03
