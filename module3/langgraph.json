@@ -1,0 +1,12 @@
+{
+  "dockerfile_lines": [],
+  "graphs": {
+    "streaming": "./streaming.py:graph",
+    "breakpoints": "./breakpoints.py:graph"
+  },
+  "env": "../.env",
+  "python_version": "3.14",
+  "dependencies": [
+    "."
+  ]
+}

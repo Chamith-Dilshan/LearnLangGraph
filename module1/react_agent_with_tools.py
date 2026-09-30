@@ -1,22 +1,23 @@
 import os
-from typing import TypedDict, Annotated
+from typing import Annotated, TypedDict
 
 from dotenv import load_dotenv
-from langchain_core.messages import AnyMessage, SystemMessage, HumanMessage
+from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
-from langgraph.constants import START, END
-from langgraph.graph import add_messages, StateGraph
+from langgraph.constants import END, START
+from langgraph.graph import StateGraph, add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 
 load_dotenv()
 
+
 # Agent state
 class AgentState(TypedDict):
-    messages: Annotated[list[AnyMessage],add_messages]
+    messages: Annotated[list[AnyMessage], add_messages]
 
 
 # Tools
-def multiply(a: int, b:int):
+def multiply(a: int, b: int):
     """Multiply a and b.
 
     Args:
@@ -25,7 +26,8 @@ def multiply(a: int, b:int):
     """
     return a * b
 
-def add(a:int, b:int):
+
+def add(a: int, b: int):
     """Add a and b.
 
     Args:
@@ -34,7 +36,8 @@ def add(a:int, b:int):
     """
     return a + b
 
-def subtract(a:int, b:int):
+
+def subtract(a: int, b: int):
     """Subtract b from a.
 
     Args:
@@ -43,7 +46,8 @@ def subtract(a:int, b:int):
     """
     return a - b
 
-def divide(a:int, b:int):
+
+def divide(a: int, b: int):
     """Divide a by b.
 
     Args:
@@ -52,14 +56,15 @@ def divide(a:int, b:int):
     """
     return a / b
 
-tools = [multiply, add, subtract, divide]
-llm =  ChatGroq(
-        api_key=os.environ.get("GROQ_API_KEY"),
-        model="openai/gpt-oss-20b",
-        temperature=0,
-    )
 
-llm_with_tools = llm.bind_tools(tools,parallel_tool_calls=False)
+tools = [multiply, add, subtract, divide]
+llm = ChatGroq(
+    api_key=os.environ.get("GROQ_API_KEY"),
+    model="openai/gpt-oss-20b",
+    temperature=0,
+)
+
+llm_with_tools = llm.bind_tools(tools, parallel_tool_calls=False)
 
 # System message
 sys_msg = SystemMessage(
@@ -70,22 +75,24 @@ sys_msg = SystemMessage(
     )
 )
 
+
 # Agent Node
 def agent(state: AgentState):
-    return {"messages": [llm_with_tools.invoke([sys_msg]+ state["messages"])]}
+    return {"messages": [llm_with_tools.invoke([sys_msg] + state["messages"])]}
+
 
 # Graph
 builder = StateGraph(AgentState)
 
 # Define Nodes
-builder.add_node("agent",agent)
-builder.add_node("tools",ToolNode(tools))
+builder.add_node("agent", agent)
+builder.add_node("tools", ToolNode(tools))
 
 # Define edges
-builder.add_edge(START,"agent")
-builder.add_conditional_edges("agent",tools_condition)
-builder.add_edge("tools","agent") # Enable ReAct nature of the Agent
-builder.add_edge("agent",END)
+builder.add_edge(START, "agent")
+builder.add_conditional_edges("agent", tools_condition)
+builder.add_edge("tools", "agent")  # Enable ReAct nature of the Agent
+builder.add_edge("agent", END)
 
 react_graph = builder.compile()
 
@@ -102,7 +109,11 @@ if __name__ == "__main__":
     else:
         print(f"Image already exists at {file_path}")
 
-    messages = [HumanMessage(content="Add 3 and 4. Multiply the output by 2. Divide the output by 5")]
+    messages = [
+        HumanMessage(
+            content="Add 3 and 4. Multiply the output by 2. Divide the output by 5"
+        )
+    ]
     result = react_graph.invoke({"messages": messages})
-    for m in result['messages']:
+    for m in result["messages"]:
         m.pretty_print()
