@@ -45,7 +45,7 @@ def divide(a: int, b: int) -> float:
     return a / b
 
 
-tools = [add, multiply, divide]
+tools = [multiply, add, divide]
 llm = ChatGroq(
     api_key=os.environ.get("GROQ_API_KEY"),
     model="openai/gpt-oss-20b",
@@ -78,7 +78,7 @@ builder.add_edge("tools", "agent")  # Enable ReAct nature of the Agent
 builder.add_edge("agent", END)
 
 memory = MemorySaver()
-graph = builder.compile(interrupt_before=["tools"], checkpointer=memory)
+graph = builder.compile(interrupt_before=["agent"], checkpointer=memory)
 
 
 async def use_langgraph_api():
@@ -89,10 +89,10 @@ async def use_langgraph_api():
 
     async for chunk in client.runs.stream(
         thread["thread_id"],
-        assistant_id="breakpoints",
+        assistant_id="editing_state_and_human_feedback",
         input=initial_input,
         stream_mode="values",
-        interrupt_before=["tools"],
+        interrupt_before=["agent"],
     ):
         print(f"Receiving new event of type: {chunk.event}...")
         messages = chunk.data.get("messages", [])
@@ -100,14 +100,32 @@ async def use_langgraph_api():
             print(messages[-1])
         print("-" * 50)
 
-    # Resume the task
+    current_state = await client.threads.get_state(thread["thread_id"])
+
+    last_message = current_state["values"]["messages"][-1]
+
+    last_message["content"] = "No, actually multiply 3 and 3!"
+
+    await client.threads.update_state(thread["thread_id"], {"messages": last_message})
 
     async for chunk in client.runs.stream(
         thread["thread_id"],
-        assistant_id="breakpoints",
+        assistant_id="editing_state_and_human_feedback",
         input=None,
         stream_mode="values",
-        interrupt_before=["tools"],
+        interrupt_before=["agent"],
+    ):
+        print(f"Receiving new event of type: {chunk.event}...")
+        messages = chunk.data.get("messages", [])
+        if messages:
+            print(messages[-1])
+
+    async for chunk in client.runs.stream(
+        thread["thread_id"],
+        assistant_id="editing_state_and_human_feedback",
+        input=None,
+        stream_mode="values",
+        interrupt_before=["agent"],
     ):
         print(f"Receiving new event of type: {chunk.event}...")
         messages = chunk.data.get("messages", [])
@@ -119,7 +137,7 @@ async def use_langgraph_api():
 if __name__ == "__main__":
     # Draw and save graph image
     os.makedirs("images", exist_ok=True)
-    file_path = os.path.join("images", "breakpoint.png")
+    file_path = os.path.join("images", "human_feedback.png")
 
     if not os.path.exists(file_path):
         png_data = graph.get_graph().draw_mermaid_png()
@@ -139,23 +157,26 @@ if __name__ == "__main__":
     for event in graph.stream(initial_input, thread, stream_mode="values"):
         event["messages"][-1].pretty_print()
 
-    state = graph.get_state(thread)
-    print(state.next)
+    state = graph.get_state(thread).values
+    print(f"This is before update: {state}")
 
-    # Get user feedback
-    user_approval = input("Do you want to call the tool? (yes/no): ")
+    graph.update_state(
+        thread, {"messages": [HumanMessage(content="No, actually multiply 3 and 3!")]}
+    )
 
-    # Check approval
-    if user_approval.lower() == "yes":
-        # If approved, continue the graph execution
-        for event in graph.stream(None, thread, stream_mode="values"):
-            event["messages"][-1].pretty_print()
+    new_state = graph.get_state(thread).values
+    print(f"This is after update: {new_state}")
+    for m in new_state["messages"]:
+        m.pretty_print()
 
-    else:
-        print("Operation cancelled by user.")
+    # simply by passing None and allowing it to proceed from the current state.
+    for event in graph.stream(None, thread, stream_mode="values"):
+        event["messages"][-1].pretty_print()
 
-    """ When you work with langgraph api, you can also pass interrupt_before to the stream method directly.
-        First locally run the langgraph api with "langgraph dev" 
-        You may need to remove the in memory before running it from the api.
-    """
+    # Now, we're back at the agent, which has our breakpoint.
+    # We can again pass None to proceed.
+    for event in graph.stream(None, thread, stream_mode="values"):
+        event["messages"][-1].pretty_print()
+
+    # How to interrupt the graph and update the state with langgraph SDK
     # asyncio.run(use_langgraph_api())

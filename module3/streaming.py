@@ -154,7 +154,7 @@ async def use_langgraph_api():
 
     async for event in client.runs.stream(
         thread["thread_id"],
-        assistant_id="agent",
+        assistant_id="streaming",
         input={"messages": [input_message]},
         stream_mode="messages",
     ):
@@ -232,7 +232,7 @@ async def langgraph_api_streaming():
 
     async for chunk in client.runs.stream(
         thread["thread_id"],
-        assistant_id="agent",
+        assistant_id="streaming",
         input={"messages": [input_message]},
         stream_mode="messages-tuple",
     ):

@@ -1,8 +1,8 @@
 import os
 from random import random
-from typing import TypedDict, Literal
+from typing import Literal, TypedDict
 
-from langgraph.constants import START, END
+from langgraph.constants import END, START
 from langgraph.graph import StateGraph
 
 
@@ -14,25 +14,21 @@ class AgentState(TypedDict):
 # Nodes
 def node_1(state):
     print("___Node 01___")
-    return {
-        "graph_state": state["graph_state"] + " I am"
-    }
+    return {"graph_state": state["graph_state"] + " I am"}
+
 
 def node_2(state):
     print("___Node 02___")
-    return {
-        "graph_state": state["graph_state"] + " happy!"
-    }
+    return {"graph_state": state["graph_state"] + " happy!"}
+
 
 def node_3(state):
     print("___Node 03___")
-    return {
-        "graph_state": state["graph_state"] + " sad!"
-    }
+    return {"graph_state": state["graph_state"] + " sad!"}
 
 
 # Edges
-def decide_mood(state) -> Literal["node_2","node_3"]:
+def decide_mood(state) -> Literal["node_2", "node_3"]:
     user_input = state["graph_state"]
     print(f"Edge deciding the state: {user_input}")
 
