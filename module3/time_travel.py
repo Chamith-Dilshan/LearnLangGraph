@@ -78,8 +78,8 @@ builder.add_edge("tools", "agent")
 builder.add_edge("agent", END)
 
 memory = MemorySaver()
-# graph = builder.compile(checkpointer=memory)
-graph = builder.compile()
+graph = builder.compile(checkpointer=memory)
+# graph = builder.compile()
 
 
 async def replaying_api(client, initial_input, thread):
