@@ -1,5 +1,4 @@
-
-""" When we define a LangGraph StateGraph, we use a state schema.
+"""When we define a LangGraph StateGraph, we use a state schema.
 The state schema represents the structure and types of data that our graph will use.
 All nodes are expected to communicate with that schema.
 
@@ -20,34 +19,36 @@ It's particularly well-suited for defining state schemas in LangGraph due to its
 Pydantic can perform validation to check whether data conforms to the specified types and constraints at runtime.
 
 """
-from dataclasses import dataclass
-from typing import TypedDict, Literal
 
-from pydantic import BaseModel, field_validator, ValidationError
+from dataclasses import dataclass
+from typing import Literal, TypedDict
+
+from pydantic import BaseModel, ValidationError, field_validator
 
 
 class TypedDictState(TypedDict):
     name: str
-    mood: Literal["happy","sad"]
+    mood: Literal["happy", "sad"]
 
 
 @dataclass
 class DataclassState:
     name: str
-    mood: Literal["happy","sad"]
+    mood: Literal["happy", "sad"]
 
 
 class PydanticState(BaseModel):
     name: str
-    mood: str # "happy" or "sad"
+    mood: str  # "happy" or "sad"
 
-    @field_validator('mood')
+    @field_validator("mood")
     @classmethod
     def validate_mood(cls, value):
         # Ensure the mood is either "happy" or "sad"
         if value not in ["happy", "sad"]:
             raise ValueError("Each mood must be either 'happy' or 'sad'")
         return value
+
 
 if __name__ == "__main__":
     try:

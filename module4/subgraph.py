@@ -1,5 +1,6 @@
 import os
 from operator import add
+from pprint import pprint
 from typing import Annotated, TypedDict
 
 from langgraph.constants import END, START
@@ -172,4 +173,4 @@ if __name__ == "__main__":
 
     raw_logs = [question_answer, question_answer_feedback]
     result = main_graph.invoke({"raw_logs": raw_logs})
-    print(f"Result: {result}")
+    pprint(f"Result: {result}")
