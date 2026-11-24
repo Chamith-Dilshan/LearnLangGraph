@@ -178,6 +178,7 @@ across_thread_memory = InMemoryStore()
 
 # Compile the graph with the checkpointer fir and store
 graph = builder.compile(checkpointer=within_thread_memory, store=across_thread_memory)
+# graph = builder.compile()
 
 if __name__ == "__main__":
     # Metatdata
