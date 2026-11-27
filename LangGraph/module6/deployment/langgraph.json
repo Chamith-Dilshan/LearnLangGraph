@@ -3,7 +3,7 @@
   "graphs": {
     "todo_agent": "./todo_agent.py:graph"
   },
-  "env": "../../.env",
+  "env": "../../../.env",
   "python_version": "3.14",
   "image_distro": "wolfi",
   "dependencies": [

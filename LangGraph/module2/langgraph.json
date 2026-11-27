@@ -4,7 +4,7 @@
     "state_reducers_graph": "./state_reducers.py:graph",
     "custom_state_reducer_graph": "./custom_state_reducers.py:graph"
   },
-  "env": "../.env",
+  "env": "../../.env",
   "python_version": "3.14",
   "dependencies": [
     "."
