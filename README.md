@@ -13,14 +13,14 @@
 </div>
 
 ## Overview
-you will learn LangGraph, LangSmith, langgraph-cli, langgraph-sdk and many 
+
+you will learn LangGraph, LangSmith, langgraph-cli, langgraph-sdk and many
 more concepts along the way.
 
-
-Agents -> Simply if the llm of the application take the responsibility to choose 
+Agents -> Simply if the llm of the application take the responsibility to choose
 the next step that is an agent. and you can give more control or less controll over to the llm.
 
-when the level of control is high, the application's reliability get lower. 
+when the level of control is high, the application's reliability get lower.
 to make the application more reliable, Langgrapgh has several techniques or pillers.
 
 1. Persistence
@@ -46,3 +46,7 @@ summarization
 summarization with db
 
 ### Module 03
+
+### Testing
+
+pytest LangChain/tests -v

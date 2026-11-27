@@ -9,17 +9,17 @@ dependencies = [
     "fastmcp>=4.2.0",
     "langchain[mcp]==1.5.2",
     "langchain-community>=0.4.2",
-    "langchain-core==1.8.4",
+    "langchain-core==1.8.5",
     "langchain-groq==1.2.1",
-    "langchain-ollama>=1.1.0",
-    "langchain-text-splitters==1.1.3",
+    "langchain-ollama==1.2.0",
+    "langchain-text-splitters==1.2.0",
     "langgraph==1.2.24",
     "langgraph-checkpoint-postgres==3.2.1",
     "langgraph-checkpoint-sqlite==3.1.3",
-    "langgraph-cli[inmem]==0.4.43",
+    "langgraph-cli[inmem]==0.4.44",
     "langgraph-prebuilt>=1.1.0",
     "langgraph-sdk==0.4.14",
-    "langsmith==0.16.0",
+    "langsmith==0.16.2",
     "psycopg[binary,pool]==3.3.9",
     "pydantic==2.14.4",
     "pygments>=2.21.0",
@@ -30,7 +30,10 @@ dependencies = [
     "wikipedia>=1.4.0",
     "httpx2==2.16.2",
     "pytest-asyncio>=1.5.0",
+    "langgraph-api[inmem]>=0.15.0",
+    "langchain-tavily>=0.2.18",
 ]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+testpaths = ["LangChain/tests"]

@@ -5,16 +5,16 @@ from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
 from langchain_groq import ChatGroq
-from tavily import TavilyClient
+from langchain_tavily import TavilySearch
 
 load_dotenv()
-tavily_client = TavilyClient(max_results=5)
+tavily_client = TavilySearch(max_results=5)
 
 
 @tool
 def web_search(query: str) -> dict[str, Any]:
     """Search the web for information related to the given query."""
-    return tavily_client.search(query)
+    return tavily_client.invoke(query)
 
 
 SYSTEM_PROMPT = """
