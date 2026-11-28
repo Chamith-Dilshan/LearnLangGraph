@@ -3,7 +3,8 @@
   "dockerfile_lines": [],
   "graphs": {
     "chef_agent": "./chef_agent.py:agent",
-    "mcp_agent": "./agent_with_mcp.py:make_graph"
+    "mcp_agent": "./agent_with_mcp.py:make_graph",
+    "multiagent_party_planner": "./multiagent_party_planner.py:make_graph"
   },
   "env": "../.env",
   "python_version": "3.14",
